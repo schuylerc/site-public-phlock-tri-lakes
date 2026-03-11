@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar of Events - Phlock Of The Tri Lakes</title>
+    <meta name="description" content="View the full calendar of events, meetings, and charitable gatherings for the Phlock of the Tri Lakes Parrot Head Club in Upstate South Carolina.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .event-item {
+            display: flex;
+            background: var(--clr-surface);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(13, 104, 94, 0.08);
+            border: 1px solid rgba(13, 104, 94, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .event-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(13, 104, 94, 0.15);
+        }
+
+        .event-date {
+            background: var(--clr-teal);
+            color: var(--clr-yellow);
+            padding: 2rem 1.5rem;
+            min-width: 140px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 4px solid var(--clr-orange);
+        }
+
+        .event-date .month {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .event-date .day {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 0.5rem 0;
+            color: var(--clr-cream);
+        }
+
+        .event-date .year {
+            font-size: 1rem;
+            color: var(--clr-cream);
+            opacity: 0.8;
+        }
+
+        .event-details {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .event-title {
+            color: var(--clr-orange);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--clr-teal);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .event-meta div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .event-item {
+                flex-direction: column;
+            }
+            .event-date {
+                padding: 1.5rem;
+                min-width: auto;
+                border-right: none;
+                border-bottom: 4px solid var(--clr-orange);
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+            }
+            .event-date .day { margin: 0; font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="logo_horizontal.png" alt="Phlock of the Tri-Lakes Logo" class="logo-img">
+            </a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="online-payment.html">MEMBERSHIP</a></li>
+                    <li><a href="calendar-of-events.html" class="active">EVENTS</a></li>
+                    <li><a href="phlock-photos.html">PHOTOS</a></li>
+                    <li><a href="phlock-apparel.html">APPAREL</a></li>
+                    <li><a href="news.html">NEWS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>CALENDAR OF EVENTS</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <section class="section section-light">
+            <div class="container">
+                
+                <p class="text-center mb-3" style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem auto;">
+                    We Party With A Purpose to make our community a better place and have phun doing it!!! Check out our upcoming events.
+                </p>
+
+                <div class="event-list">
+                    
+                    <!-- Event 1 -->
+                    <article class="event-item">
+                        <div class="event-date">
+                            <span class="month">MAR</span>
+                            <span class="day">17</span>
+                            <span class="year">2026</span>
+                        </div>
+                        <div class="event-details">
+                            <h3 class="event-title">PHLOCK 5th ANNIVERSARY!!!</h3>
+                            <div class="event-meta">
+                                <div><i class="far fa-clock"></i> 3:00 PM - 6:00 PM</div>
+                                <div><i class="fas fa-map-marker-alt"></i> Walhalla, SC</div>
+                            </div>
+                            <p>THE PHLOCK IS CELEBRATING 5 YEARS!!! Come enjoy some delicious food and fun times at Freehouse Brewery (210 E. Main St., Walhalla).</p>
+                        </div>
+                    </article>
+
+                    <!-- Event 2 -->
+                    <article class="event-item">
+                        <div class="event-date">
+                            <span class="month">MAR</span>
+                            <span class="day">18</span>
+                            <span class="year">2026</span>
+                        </div>
+                        <div class="event-details">
+                            <h3 class="event-title">CLEMSON PLANETARIUM</h3>
+                            <div class="event-meta">
+                                <div><i class="far fa-clock"></i> 11:00 AM - 1:00 PM</div>
+                                <div><i class="fas fa-map-marker-alt"></i> Clemson, SC</div>
+                            </div>
+                            <p>Kinard Laboratory of Physics, Room 112, on the Clemson University campus. <strong>THIS IS A MEMBER-ONLY EVENT.</strong></p>
+                        </div>
+                    </article>
+
+                    <!-- Event 3 -->
+                    <article class="event-item">
+                        <div class="event-date">
+                            <span class="month">APR</span>
+                            <span class="day">01</span>
+                            <span class="year">2026</span>
+                        </div>
+                        <div class="event-details">
+                            <h3 class="event-title">ADOPT-A-HIGHWAY</h3>
+                            <div class="event-meta">
+                                <div><i class="far fa-clock"></i> 9:00 AM - 11:00 AM</div>
+                                <div><i class="fas fa-map-marker-alt"></i> Seneca, SC</div>
+                            </div>
+                            <p>Let's get trashy together and help keep our part of the world clean!!! We will meet at 9am at Rediscovered Treasures on Blue Ridge Blvd./Hwy 28.</p>
+                        </div>
+                    </article>
+
+                    <!-- Event 4 -->
+                    <article class="event-item">
+                        <div class="event-date">
+                            <span class="month">APR</span>
+                            <span class="day">07</span>
+                            <span class="year">2026</span>
+                        </div>
+                        <div class="event-details">
+                            <h3 class="event-title">MONTHLY PHLOCKING</h3>
+                            <div class="event-meta">
+                                <div><i class="far fa-clock"></i> 6:00 PM - ?</div>
+                                <div><i class="fas fa-map-marker-alt"></i> Walhalla, SC</div>
+                            </div>
+                            <p>Come check out the Phlock at our Monthly Phlocking (Meeting) at Stumphaus Taproom, 200 E. Main St., Walhalla. Stumphaus Taproom offers its full menu and bar.</p>
+                        </div>
+                    </article>
+
+                    <!-- Event 5 -->
+                    <article class="event-item">
+                        <div class="event-date">
+                            <span class="month">MAY</span>
+                            <span class="day">05</span>
+                            <span class="year">2026</span>
+                        </div>
+                        <div class="event-details">
+                            <h3 class="event-title">MONTHLY PHLOCKING</h3>
+                            <div class="event-meta">
+                                <div><i class="far fa-clock"></i> 6:00 PM - ?</div>
+                                <div><i class="fas fa-map-marker-alt"></i> Walhalla, SC</div>
+                            </div>
+                            <p>Come check out the Phlock at our Monthly Phlocking (Meeting) at Stumphaus Taproom, 200 E. Main St., Walhalla. Stumphaus Taproom offers its full menu and bar.</p>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container border-t">
+            <div class="footer-grid">
+                <div>
+                    <h3>Phlock of the Tri-Lakes</h3>
+                    <p style="margin-bottom: 1rem;">A Parrot Head Club serving Lake Keowee, Lake Hartwell, and Lake Jocassee in beautiful Upstate South Carolina.</p>
+                </div>
+                <div>
+                    <h3>Downloads</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://img1.wsimg.com/blobby/go/c45afc03-465b-487e-9a56-6a026f907365/downloads/8bb79185-5d94-4286-8bb3-e101e4dee818/Membership%20Form.pdf?ver=1772998113695" target="_blank">Printable Membership Form (PDF)</a></li>
+                        <li><a href="https://img1.wsimg.com/blobby/go/c45afc03-465b-487e-9a56-6a026f907365/downloads/Who%20We%20Are%20and%20Speaking%20Parrot%20Head.pdf?ver=1772998113695" target="_blank">Who We Are / Speaking Parrot Head (PDF)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contact Us</h3>
+                    <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="color: var(--clr-orange); margin-right: 10px;"></i> <a href="mailto:Trilakesphlockphc@gmail.com" style="color: var(--clr-cream);">Trilakesphlockphc@gmail.com</a></p>
+                    <p style="margin-top: 1.5rem; color: var(--clr-yellow);"><i class="far fa-clock"></i> Hours: Always Open ... 5 O'Clock Somewhere</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>Copyright &copy; 2026 Phlock Of The Tri-Lakes - All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            var nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
