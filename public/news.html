@@ -3,10 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News - Phlock Of The Tri Lakes</title>
-    <meta name="description" content="Catch up on the latest news and updates from the Phlock of the Tri Lakes Parrot Head Club community.">
+    <title>Blog - Phlock Of The Tri Lakes</title>
+    <meta name="description" content="Read the latest news, event recaps, and stories from the Phlock of the Tri Lakes Parrot Head Club.">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Include marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .blog-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .blog-post {
+            background: var(--clr-surface);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 5px 20px rgba(13, 104, 94, 0.08);
+            border: 1px solid rgba(13, 104, 94, 0.05);
+        }
+        .blog-post h1 { color: var(--clr-teal); margin-bottom: 0.5rem; }
+        .blog-post p { margin-bottom: 1.2rem; }
+        .blog-post a { text-decoration: underline; }
+        .blog-post strong { color: var(--clr-orange); }
+        .blog-post ul, .blog-post ol { margin-left: 2rem; margin-bottom: 1.2rem; }
+        
+        .loading-text {
+            text-align: center;
+            color: var(--clr-teal);
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
+
+        .no-more-posts {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,7 +53,7 @@
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav id="main-nav">
+                        <nav id="main-nav">
                 <ul>
                     <li><a href="index.html">HOME</a></li>
                     <li><a href="online-payment.html">MEMBERSHIP</a></li>
@@ -33,22 +68,18 @@
 
     <div class="page-header">
         <div class="container">
-            <h1>LATEST NEWS</h1>
+            <h1>PHLOCK BLOG</h1>
         </div>
     </div>
 
     <!-- Main Content -->
     <main>
         <section class="section section-light">
-            <div class="container text-center" style="min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                
-                <i class="fas fa-tools" style="font-size: 5rem; color: var(--clr-yellow); margin-bottom: 2rem;"></i>
-                
-                <h2 style="font-size: 3rem; color: var(--clr-teal); margin-bottom: 1rem;">Under Construction</h2>
-                <p style="font-size: 1.2rem;">Please check back later for exciting news updates!</p>
-                
-                <a href="index.html" class="btn btn-primary" style="margin-top: 2rem;">Back to Home</a>
-
+            <div class="container blog-container">
+                <div id="blog-feed">
+                    <div class="loading-text" id="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading Posts...</div>
+                </div>
+                <div class="no-more-posts" id="no-more-posts" style="display: none;">You've reached the end of our updates.</div>
             </div>
         </section>
     </main>
@@ -64,8 +95,8 @@
                 <div>
                     <h3>Downloads</h3>
                     <ul class="footer-links">
-                        <li><a href="https://img1.wsimg.com/blobby/go/c45afc03-465b-487e-9a56-6a026f907365/downloads/8bb79185-5d94-4286-8bb3-e101e4dee818/Membership%20Form.pdf?ver=1772998113695" target="_blank">Printable Membership Form (PDF)</a></li>
-                        <li><a href="https://img1.wsimg.com/blobby/go/c45afc03-465b-487e-9a56-6a026f907365/downloads/Who%20We%20Are%20and%20Speaking%20Parrot%20Head.pdf?ver=1772998113695" target="_blank">Who We Are / Speaking Parrot Head (PDF)</a></li>
+                        <li><a href="docs/PTL-Membership-Form.pdf" target="_blank">Printable Membership Form (PDF)</a></li>
+                        <li><a href="docs/ptl-speaking-parrot.pdf" target="_blank">Who We Are / Speaking Parrot Head (PDF)</a></li>
                     </ul>
                 </div>
                 <div>
@@ -85,6 +116,51 @@
             var nav = document.getElementById('main-nav');
             nav.classList.toggle('active');
         });
+
+        // Blog sequential markdown loading logic
+        const blogFeed = document.getElementById('blog-feed');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const noMorePosts = document.getElementById('no-more-posts');
+        
+        // Define sequential posts we know exist since there's no dynamic directory listing on static sites
+        const postsToLoad = ['post2.md', 'welcome.md']; 
+        
+        async function loadBlogPosts() {
+            let loadedCount = 0;
+            
+            for (const filename of postsToLoad) {
+                try {
+                    const response = await fetch(`blog/${filename}`);
+                    if (response.ok) {
+                        const markdown = await response.text();
+                        
+                        // Parse markdown to HTML
+                        const htmlContent = marked.parse(markdown);
+                        
+                        // Create post container
+                        const postDiv = document.createElement('article');
+                        postDiv.className = 'blog-post';
+                        postDiv.innerHTML = htmlContent;
+                        
+                        // Append to feed
+                        blogFeed.appendChild(postDiv);
+                        loadedCount++;
+                    }
+                } catch (e) {
+                    console.error('Failed to load post:', filename, e);
+                }
+            }
+            
+            // Remove spinner
+            loadingSpinner.style.display = 'none';
+            
+            if (loadedCount === postsToLoad.length) {
+                noMorePosts.style.display = 'block';
+            }
+        }
+
+        // Initialize loading
+        loadBlogPosts();
     </script>
 </body>
 </html>

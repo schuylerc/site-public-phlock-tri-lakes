@@ -18,7 +18,7 @@
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav id="main-nav">
+                        <nav id="main-nav">
                 <ul>
                     <li><a href="index.html">HOME</a></li>
                     <li><a href="online-payment.html">MEMBERSHIP</a></li>
@@ -46,45 +46,20 @@
                     Take a look back at all the phun we've had over the years!
                 </p>
 
-                <div class="grid-2">
-                    <!-- Photo Card -->
-                    <div class="card text-center">
-                        <i class="fas fa-camera-retro" style="font-size: 3rem; color: var(--clr-orange); margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--clr-teal); margin-bottom: 1rem;">2025 PHLOCK PHOTOS</h3>
-                        <a href="phlock-photos.html" class="btn btn-outline" style="margin-top: auto;">Show More</a>
-                    </div>
-
-                    <!-- Photo Card -->
-                    <div class="card text-center">
-                        <i class="fas fa-camera-retro" style="font-size: 3rem; color: var(--clr-orange); margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--clr-teal); margin-bottom: 1rem;">2024 PHLOCK PHOTOS</h3>
-                        <a href="phlock-photos.html" class="btn btn-outline" style="margin-top: auto;">Show More</a>
-                    </div>
-                    
-                    <!-- Photo Card -->
-                    <div class="card text-center">
-                        <i class="fas fa-camera-retro" style="font-size: 3rem; color: var(--clr-orange); margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--clr-teal); margin-bottom: 1rem;">2023 PHLOCK PHOTOS</h3>
-                        <a href="phlock-photos.html" class="btn btn-outline" style="margin-top: auto;">Show More</a>
-                    </div>
-                    
-                    <!-- Photo Card -->
-                    <div class="card text-center">
-                        <i class="fas fa-camera-retro" style="font-size: 3rem; color: var(--clr-orange); margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--clr-teal); margin-bottom: 1rem;">2022 PHLOCK PHOTOS</h3>
-                        <a href="phlock-photos.html" class="btn btn-outline" style="margin-top: auto;">Show More</a>
-                    </div>
-
-                    <!-- Photo Card -->
-                    <div class="card text-center">
-                        <i class="fas fa-camera-retro" style="font-size: 3rem; color: var(--clr-orange); margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--clr-teal); margin-bottom: 1rem;">2021 PHLOCK PHOTOS</h3>
-                        <a href="phlock-photos.html" class="btn btn-outline" style="margin-top: auto;">Show More</a>
-                    </div>
+                <div class="masonry-grid" id="masonry-grid">
+                    <!-- Photos injected via Javascript -->
                 </div>
 
             </div>
         </section>
+
+        <!-- Fullscreen Slideshow Modal -->
+        <div id="photo-modal" class="photo-modal">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <button class="modal-nav modal-prev" id="modal-prev"><i class="fas fa-chevron-left"></i></button>
+            <img class="modal-content" id="modal-img" src="" alt="Fullscreen Photo">
+            <button class="modal-nav modal-next" id="modal-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -98,8 +73,8 @@
                 <div>
                     <h3>Downloads</h3>
                     <ul class="footer-links">
-                        <li><a href="https://img1.wsimg.com/blobby/go/c45afc03-465b-487e-9a56-6a026f907365/downloads/8bb79185-5d94-4286-8bb3-e101e4dee818/Membership%20Form.pdf?ver=1772998113695" target="_blank">Printable Membership Form (PDF)</a></li>
-                        <li><a href="https://img1.wsimg.com/blobby/go/c45afc03-465b-487e-9a56-6a026f907365/downloads/Who%20We%20Are%20and%20Speaking%20Parrot%20Head.pdf?ver=1772998113695" target="_blank">Who We Are / Speaking Parrot Head (PDF)</a></li>
+                        <li><a href="docs/PTL-Membership-Form.pdf" target="_blank">Printable Membership Form (PDF)</a></li>
+                        <li><a href="docs/ptl-speaking-parrot.pdf" target="_blank">Who We Are / Speaking Parrot Head (PDF)</a></li>
                     </ul>
                 </div>
                 <div>
@@ -119,6 +94,105 @@
             var nav = document.getElementById('main-nav');
             nav.classList.toggle('active');
         });
+
+        // Masonry Gallery Sourcing Logic
+        const currentYear = 2026;
+        const masonryGrid = document.getElementById('masonry-grid');
+        const loadedImages = [];
+        
+        // Modal elements
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const btnClose = document.getElementById('modal-close');
+        const btnPrev = document.getElementById('modal-prev');
+        const btnNext = document.getElementById('modal-next');
+        let currentImageIndex = -1;
+
+        // Auto source logic using fetch checking for sequentially named local images
+        async function loadImages() {
+            // For statically hosted sites without an index, we try to load 1.jpg, 2.jpg...
+            let idx = 1;
+            let keepLoading = true;
+            
+            while (keepLoading && idx <= 50) { // arbitrary cap to prevent infinite loop
+                const imgUrl = `pics/${currentYear}/${idx}.jpg`;
+                
+                try {
+                    const response = await fetch(imgUrl, { method: 'HEAD' });
+                    if (response.ok) {
+                        loadedImages.push(imgUrl);
+                        
+                        // Create and append item
+                        const item = document.createElement('div');
+                        item.className = 'masonry-item';
+                        item.innerHTML = `<img src="${imgUrl}" alt="Phlock Event Photo ${idx}" loading="lazy">`;
+                        
+                        // Attach click event for modal with closure capturing the index
+                        const myIndex = loadedImages.length - 1;
+                        item.addEventListener('click', () => openModal(myIndex));
+                        
+                        masonryGrid.appendChild(item);
+                        idx++;
+                    } else {
+                        keepLoading = false; // Break loop if file not found
+                    }
+                } catch (e) {
+                    keepLoading = false; // Network or CORS error
+                }
+            }
+        }
+
+        // Slideshow controls
+        function openModal(index) {
+            currentImageIndex = index;
+            modalImg.src = loadedImages[currentImageIndex];
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        function prevImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                modalImg.src = loadedImages[currentImageIndex];
+            } else {
+                // Loop to end
+                currentImageIndex = loadedImages.length - 1;
+                modalImg.src = loadedImages[currentImageIndex];
+            }
+        }
+
+        function nextImage() {
+            if (currentImageIndex < loadedImages.length - 1) {
+                currentImageIndex++;
+                modalImg.src = loadedImages[currentImageIndex];
+            } else {
+                // Loop to start
+                currentImageIndex = 0;
+                modalImg.src = loadedImages[currentImageIndex];
+            }
+        }
+
+        // Event listeners for modal
+        btnClose.addEventListener('click', closeModal);
+        btnPrev.addEventListener('click', prevImage);
+        btnNext.addEventListener('click', nextImage);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        });
+
+        // Initialize loading
+        loadImages();
     </script>
 </body>
 </html>
