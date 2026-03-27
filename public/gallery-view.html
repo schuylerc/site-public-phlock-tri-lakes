@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Phlock Of The Tri Lakes</title>
+    <meta name="description" content="View our event gallery photos.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="logo_horizontal.png" alt="Phlock of the Tri-Lakes Logo" class="logo-img">
+            </a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="online-payment.html">MEMBERSHIP</a></li>
+                    <li><a href="calendar-of-events.html">EVENTS</a></li>
+                    <li><a href="phlock-photos.html" class="active">PHOTOS</a></li>
+                    <li><a href="phlock-apparel.html">APPAREL</a></li>
+                    <li><a href="news.html">NEWS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header" style="padding: 2rem 0;">
+        <div class="container">
+            <h1 id="gallery-title" style="font-size: 2.5rem;">GALLERY NAME</h1>
+            <a href="phlock-photos.html" style="color: var(--clr-cream); text-decoration: underline; margin-top: 10px; display: inline-block;"><i class="fas fa-arrow-left"></i> Back to all galleries</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <section class="section section-light">
+            <div class="container">
+                
+                <div class="masonry-grid" id="masonry-grid">
+                    <!-- Photos injected via Javascript -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Fullscreen Slideshow Modal -->
+        <div id="photo-modal" class="photo-modal">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <button class="modal-nav modal-prev" id="modal-prev"><i class="fas fa-chevron-left"></i></button>
+            <img class="modal-content" id="modal-img" src="" alt="Fullscreen Photo">
+            <button class="modal-nav modal-next" id="modal-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container border-t">
+            <div class="footer-grid">
+                <div>
+                    <h3>Phlock of the Tri-Lakes</h3>
+                    <p style="margin-bottom: 1rem;">A Parrot Head Club serving Lake Keowee, Lake Hartwell, and Lake Jocassee in beautiful Upstate South Carolina.</p>
+                </div>
+                <div>
+                    <h3>Downloads</h3>
+                    <ul class="footer-links">
+                        <li><a href="docs/PTL-Membership-Form.pdf" target="_blank">Printable Membership Form (PDF)</a></li>
+                        <li><a href="docs/ptl-speaking-parrot.pdf" target="_blank">Who We Are / Speaking Parrot Head (PDF)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contact Us</h3>
+                    <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="color: var(--clr-orange); margin-right: 10px;"></i> <a href="mailto:Trilakesphlockphc@gmail.com" style="color: var(--clr-cream);">Trilakesphlockphc@gmail.com</a></p>
+                    <p style="margin-top: 1.5rem; color: var(--clr-yellow);"><i class="far fa-clock"></i> Hours: Always Open ... 5 O'Clock Somewhere</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>Copyright &copy; 2026 Phlock Of The Tri-Lakes - All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load gallery data -->
+    <script src="js/gallery-data.js"></script>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            var nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+        });
+
+        // Parse query params
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentFolder = urlParams.get('folder');
+        
+        // Masonry Gallery Sourcing Logic
+        const masonryGrid = document.getElementById('masonry-grid');
+        const titleEl = document.getElementById('gallery-title');
+        const loadedImages = [];
+        
+        if (currentFolder) {
+            titleEl.textContent = currentFolder.toUpperCase();
+        } else {
+            titleEl.textContent = "GALLERY";
+        }
+        
+        const galleryFiles = (galleryData && currentFolder && galleryData[currentFolder]) ? galleryData[currentFolder] : [];
+        
+        // Modal elements
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const btnClose = document.getElementById('modal-close');
+        const btnPrev = document.getElementById('modal-prev');
+        const btnNext = document.getElementById('modal-next');
+        let currentImageIndex = -1;
+
+        function loadImages() {
+            if (galleryFiles.length === 0) {
+                masonryGrid.innerHTML = "<p>No photos found in this gallery.</p>";
+                return;
+            }
+
+            galleryFiles.forEach((filename, index) => {
+                const imgUrl = `pics/gallery/${currentFolder}/${filename}`;
+                loadedImages.push(imgUrl);
+                
+                // Create and append item
+                const item = document.createElement('div');
+                item.className = 'masonry-item';
+                item.innerHTML = `<img src="${imgUrl}" alt="${currentFolder} Photo ${index + 1}" loading="lazy">`;
+                
+                // Attach click event for modal with closure capturing the index
+                const myIndex = loadedImages.length - 1;
+                item.addEventListener('click', () => openModal(myIndex));
+                
+                masonryGrid.appendChild(item);
+            });
+        }
+
+        // Slideshow controls
+        function openModal(index) {
+            currentImageIndex = index;
+            modalImg.src = loadedImages[currentImageIndex];
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        function prevImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                modalImg.src = loadedImages[currentImageIndex];
+            } else {
+                // Loop to end
+                currentImageIndex = loadedImages.length - 1;
+                modalImg.src = loadedImages[currentImageIndex];
+            }
+        }
+
+        function nextImage() {
+            if (currentImageIndex < loadedImages.length - 1) {
+                currentImageIndex++;
+                modalImg.src = loadedImages[currentImageIndex];
+            } else {
+                // Loop to start
+                currentImageIndex = 0;
+                modalImg.src = loadedImages[currentImageIndex];
+            }
+        }
+
+        // Event listeners for modal
+        btnClose.addEventListener('click', closeModal);
+        btnPrev.addEventListener('click', prevImage);
+        btnNext.addEventListener('click', nextImage);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        });
+
+        // Initialize loading
+        loadImages();
+    </script>
+</body>
+</html>
