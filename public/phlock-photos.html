@@ -96,9 +96,18 @@
         });
 
         // Masonry Gallery Sourcing Logic
-        const currentYear = 2026;
         const masonryGrid = document.getElementById('masonry-grid');
         const loadedImages = [];
+        
+        // Array of image filenames in the gallery folder
+        const galleryFiles = [
+            'image1.jpeg', 'image2.jpeg', 'image3.jpeg', 'image4.jpeg',
+            'image5.jpeg', 'image6.jpeg', 'image7.jpeg', 'image8.jpeg',
+            'image9.jpeg', 'image10.jpeg', 'image11.jpeg', 'image12.jpeg',
+            'image13.jpeg', 'image14.jpeg', 'image15.jpeg', 'image16.jpeg',
+            'image17.jpeg', 'image18.jpeg', 'image19.jpeg', 'image20.jpeg',
+            'image21.jpeg', 'image22.jpeg', 'image23.jpeg', 'image24.jpeg'
+        ];
         
         // Modal elements
         const modal = document.getElementById('photo-modal');
@@ -108,38 +117,22 @@
         const btnNext = document.getElementById('modal-next');
         let currentImageIndex = -1;
 
-        // Auto source logic using fetch checking for sequentially named local images
-        async function loadImages() {
-            // For statically hosted sites without an index, we try to load 1.jpg, 2.jpg...
-            let idx = 1;
-            let keepLoading = true;
-            
-            while (keepLoading && idx <= 50) { // arbitrary cap to prevent infinite loop
-                const imgUrl = `pics/${currentYear}/${idx}.jpg`;
+        function loadImages() {
+            galleryFiles.forEach((filename, index) => {
+                const imgUrl = `pics/gallery/${filename}`;
+                loadedImages.push(imgUrl);
                 
-                try {
-                    const response = await fetch(imgUrl, { method: 'HEAD' });
-                    if (response.ok) {
-                        loadedImages.push(imgUrl);
-                        
-                        // Create and append item
-                        const item = document.createElement('div');
-                        item.className = 'masonry-item';
-                        item.innerHTML = `<img src="${imgUrl}" alt="Phlock Event Photo ${idx}" loading="lazy">`;
-                        
-                        // Attach click event for modal with closure capturing the index
-                        const myIndex = loadedImages.length - 1;
-                        item.addEventListener('click', () => openModal(myIndex));
-                        
-                        masonryGrid.appendChild(item);
-                        idx++;
-                    } else {
-                        keepLoading = false; // Break loop if file not found
-                    }
-                } catch (e) {
-                    keepLoading = false; // Network or CORS error
-                }
-            }
+                // Create and append item
+                const item = document.createElement('div');
+                item.className = 'masonry-item';
+                item.innerHTML = `<img src="${imgUrl}" alt="Phlock Event Photo ${index + 1}" loading="lazy">`;
+                
+                // Attach click event for modal with closure capturing the index
+                const myIndex = loadedImages.length - 1;
+                item.addEventListener('click', () => openModal(myIndex));
+                
+                masonryGrid.appendChild(item);
+            });
         }
 
         // Slideshow controls

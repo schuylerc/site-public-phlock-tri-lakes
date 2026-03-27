@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - Phlock Of The Tri Lakes</title>
-    <meta name="description" content="Read the latest news, event recaps, and stories from the Phlock of the Tri Lakes Parrot Head Club.">
+    <meta name="description"
+        content="Read the latest news, event recaps, and stories from the Phlock of the Tri Lakes Parrot Head Club.">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Include marked.js for Markdown parsing -->
@@ -14,6 +16,7 @@
             max-width: 800px;
             margin: 0 auto;
         }
+
         .blog-post {
             background: var(--clr-surface);
             border-radius: 12px;
@@ -22,12 +25,30 @@
             box-shadow: 0 5px 20px rgba(13, 104, 94, 0.08);
             border: 1px solid rgba(13, 104, 94, 0.05);
         }
-        .blog-post h1 { color: var(--clr-teal); margin-bottom: 0.5rem; }
-        .blog-post p { margin-bottom: 1.2rem; }
-        .blog-post a { text-decoration: underline; }
-        .blog-post strong { color: var(--clr-orange); }
-        .blog-post ul, .blog-post ol { margin-left: 2rem; margin-bottom: 1.2rem; }
-        
+
+        .blog-post h1 {
+            color: var(--clr-teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-post p {
+            margin-bottom: 1.2rem;
+        }
+
+        .blog-post a {
+            text-decoration: underline;
+        }
+
+        .blog-post strong {
+            color: var(--clr-orange);
+        }
+
+        .blog-post ul,
+        .blog-post ol {
+            margin-left: 2rem;
+            margin-bottom: 1.2rem;
+        }
+
         .loading-text {
             text-align: center;
             color: var(--clr-teal);
@@ -43,6 +64,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -53,7 +75,7 @@
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
-                        <nav id="main-nav">
+            <nav id="main-nav">
                 <ul>
                     <li><a href="index.html">HOME</a></li>
                     <li><a href="online-payment.html">MEMBERSHIP</a></li>
@@ -77,9 +99,11 @@
         <section class="section section-light">
             <div class="container blog-container">
                 <div id="blog-feed">
-                    <div class="loading-text" id="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading Posts...</div>
+                    <div class="loading-text" id="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading
+                        Posts...</div>
                 </div>
-                <div class="no-more-posts" id="no-more-posts" style="display: none;">You've reached the end of our updates.</div>
+                <div class="no-more-posts" id="no-more-posts" style="display: none;">You've reached the end of our
+                    updates.</div>
             </div>
         </section>
     </main>
@@ -90,19 +114,26 @@
             <div class="footer-grid">
                 <div>
                     <h3>Phlock of the Tri-Lakes</h3>
-                    <p style="margin-bottom: 1rem;">A Parrot Head Club serving Lake Keowee, Lake Hartwell, and Lake Jocassee in beautiful Upstate South Carolina.</p>
+                    <p style="margin-bottom: 1rem;">A Parrot Head Club serving Lake Keowee, Lake Hartwell, and Lake
+                        Jocassee in beautiful Upstate South Carolina.</p>
                 </div>
                 <div>
                     <h3>Downloads</h3>
                     <ul class="footer-links">
-                        <li><a href="docs/PTL-Membership-Form.pdf" target="_blank">Printable Membership Form (PDF)</a></li>
-                        <li><a href="docs/ptl-speaking-parrot.pdf" target="_blank">Who We Are / Speaking Parrot Head (PDF)</a></li>
+                        <li><a href="docs/PTL-Membership-Form.pdf" target="_blank">Printable Membership Form (PDF)</a>
+                        </li>
+                        <li><a href="docs/ptl-speaking-parrot.pdf" target="_blank">Who We Are / Speaking Parrot Head
+                                (PDF)</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3>Contact Us</h3>
-                    <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="color: var(--clr-orange); margin-right: 10px;"></i> <a href="mailto:Trilakesphlockphc@gmail.com" style="color: var(--clr-cream);">Trilakesphlockphc@gmail.com</a></p>
-                    <p style="margin-top: 1.5rem; color: var(--clr-yellow);"><i class="far fa-clock"></i> Hours: Always Open ... 5 O'Clock Somewhere</p>
+                    <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope"
+                            style="color: var(--clr-orange); margin-right: 10px;"></i> <a
+                            href="mailto:Trilakesphlockphc@gmail.com"
+                            style="color: var(--clr-cream);">Trilakesphlockphc@gmail.com</a></p>
+                    <p style="margin-top: 1.5rem; color: var(--clr-yellow);"><i class="far fa-clock"></i> Hours: Always
+                        Open ... 5 O'Clock Somewhere</p>
                 </div>
             </div>
             <div class="copyright">
@@ -112,7 +143,7 @@
     </footer>
 
     <script>
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+        document.getElementById('mobile-menu-btn').addEventListener('click', function () {
             var nav = document.getElementById('main-nav');
             nav.classList.toggle('active');
         });
@@ -121,27 +152,28 @@
         const blogFeed = document.getElementById('blog-feed');
         const loadingSpinner = document.getElementById('loading-spinner');
         const noMorePosts = document.getElementById('no-more-posts');
-        
+
         // Define sequential posts we know exist since there's no dynamic directory listing on static sites
-        const postsToLoad = ['post3.md', 'post2.md', 'welcome.md']; 
-        
+        const postsToLoad = ['2026-03-27.md', '2026-03-12.md', '2026-03-11.md'];
+
         async function loadBlogPosts() {
             let loadedCount = 0;
-            
+
             for (const filename of postsToLoad) {
                 try {
-                    const response = await fetch(`blog/${filename}`);
+                    // Append a timestamp parameter to prevent aggressive browser caching
+                    const response = await fetch(`blog/${filename}?v=${new Date().getTime()}`);
                     if (response.ok) {
                         const markdown = await response.text();
-                        
+
                         // Parse markdown to HTML
                         const htmlContent = marked.parse(markdown);
-                        
+
                         // Create post container
                         const postDiv = document.createElement('article');
                         postDiv.className = 'blog-post';
                         postDiv.innerHTML = htmlContent;
-                        
+
                         // Append to feed
                         blogFeed.appendChild(postDiv);
                         loadedCount++;
@@ -150,10 +182,10 @@
                     console.error('Failed to load post:', filename, e);
                 }
             }
-            
+
             // Remove spinner
             loadingSpinner.style.display = 'none';
-            
+
             if (loadedCount === postsToLoad.length) {
                 noMorePosts.style.display = 'block';
             }
@@ -163,4 +195,5 @@
         loadBlogPosts();
     </script>
 </body>
+
 </html>
