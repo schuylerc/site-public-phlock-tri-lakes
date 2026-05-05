@@ -1,5 +1,9 @@
 const galleryData = {
-    "Community Outreach": [],
+    "Community Outreach": [
+        "48-e1cf33c.jpg",
+        "58.jpg",
+        "59.jpg"
+    ],
     "2026 Phlock Photos": [
         "686149684_27041310158814272_8265927828851428044_n.jpg",
         "686477883_27041310198814268_6835514756070819652_n.jpg",
