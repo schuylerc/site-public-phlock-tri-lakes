@@ -1,4 +1,4 @@
-const galleryData = {
+﻿const galleryData = {
     "Community Outreach": [
         "29-d2c95ab.jpg",
         "35.jpg",
@@ -511,3 +511,4 @@ const galleryData = {
         "Parrot.png"
     ]
 };
+
