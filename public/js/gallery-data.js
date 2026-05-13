@@ -104,32 +104,20 @@
         "34.jpg",
         "35.jpg",
         "36.jpg",
-        "37.jpg",
         "37-853f13c.jpg",
         "38.jpg",
-        "39.jpg",
         "39-2e2b02b.jpg",
-        "40.jpg",
         "40-1deca43.jpg",
-        "41.jpg",
         "41-c4bb6b7.jpg",
-        "42.jpg",
         "42-d0d3e0e.jpg",
-        "43.jpg",
         "43-b09966a.jpg",
-        "44.jpg",
         "44-5cd26f6.jpg",
-        "45.jpg",
         "45-bd08118.jpg",
-        "46.jpg",
         "46-624e683.jpg",
         "47.jpg",
         "4-734af4b.jpg",
-        "48.jpg",
         "48-e1cf33c.jpg",
-        "49.jpg",
         "49-109aebd.jpg",
-        "50.jpg",
         "50-d4f73d8.jpg",
         "51.jpg",
         "52.jpg",
@@ -588,5 +576,6 @@
         "Parrot.png"
     ]
 };
+
 
 
