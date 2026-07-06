@@ -1,9 +1,9 @@
 $basePath = 'c:\Users\tntjt\OneDrive\Documents\GitHub\site-public-phlock-tri-lakes\public\pics\gallery'
 $jsPath = 'c:\Users\tntjt\OneDrive\Documents\GitHub\site-public-phlock-tri-lakes\public\js\gallery-data.js'
 
-$co = (Get-ChildItem -Path (Join-Path $basePath 'Community Outreach') -File | Sort-Object Name).Name
-$ph2026 = (Get-ChildItem -Path (Join-Path $basePath '2026 Phlock Photos') -File | Sort-Object Name).Name
-$ph2025 = (Get-ChildItem -Path (Join-Path $basePath '2025 Phlock Photos') -File | Sort-Object Name).Name
+$co = (Get-ChildItem -Path (Join-Path $basePath 'Community Outreach') -File | Sort-Object LastWriteTime, @{Expression={ if ($_.Name -match '^\d+') { [int64]$matches[0] } else { 0 } }}, Name).Name
+$ph2026 = (Get-ChildItem -Path (Join-Path $basePath '2026 Phlock Photos') -File | Sort-Object LastWriteTime, @{Expression={ if ($_.Name -match '^\d+') { [int64]$matches[0] } else { 0 } }}, Name).Name
+$ph2025 = (Get-ChildItem -Path (Join-Path $basePath '2025 Phlock Photos') -File | Sort-Object LastWriteTime, @{Expression={ if ($_.Name -match '^\d+') { [int64]$matches[0] } else { 0 } }}, Name).Name
 
 $content = Get-Content $jsPath -Raw
 
