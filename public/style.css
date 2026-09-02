@@ -440,13 +440,21 @@ footer h3 {
    Masonry Gallery & Slideshow Modal
    ========================================= */
 .masonry-grid {
-  column-count: 3;
-  column-gap: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.masonry-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1.5rem;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -508,12 +516,9 @@ footer h3 {
 /* =========================================
    Responsive
    ========================================= */
-@media (max-width: 900px) {
-  .masonry-grid { column-count: 2; }
-}
-
 @media (max-width: 600px) {
-  .masonry-grid { column-count: 1; }
+  .masonry-grid { gap: 1rem; }
+  .masonry-col { gap: 1rem; }
 }
 
 @media (max-width: 1024px) {

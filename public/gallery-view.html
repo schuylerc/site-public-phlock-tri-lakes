@@ -126,17 +126,36 @@
         const btnNext = document.getElementById('modal-next');
         let currentImageIndex = -1;
 
+        function getColumnCount() {
+            const w = window.innerWidth;
+            if (w <= 600) return 1;
+            if (w <= 900) return 2;
+            return 3;
+        }
+
         function loadImages() {
+            masonryGrid.innerHTML = "";
+            loadedImages.length = 0;
+
             if (galleryFiles.length === 0) {
                 masonryGrid.innerHTML = "<p>No photos found in this gallery.</p>";
                 return;
+            }
+
+            const numCols = getColumnCount();
+            const colEls = [];
+            for (let c = 0; c < numCols; c++) {
+                const col = document.createElement('div');
+                col.className = 'masonry-col';
+                masonryGrid.appendChild(col);
+                colEls.push(col);
             }
 
             galleryFiles.forEach((filename, index) => {
                 const imgUrl = `pics/gallery/${currentFolder}/${filename}`;
                 loadedImages.push(imgUrl);
                 
-                // Create and append item
+                // Create item
                 const item = document.createElement('div');
                 item.className = 'masonry-item';
                 item.innerHTML = `<img src="${imgUrl}" alt="${currentFolder} Photo ${index + 1}" loading="lazy">`;
@@ -145,9 +164,16 @@
                 const myIndex = loadedImages.length - 1;
                 item.addEventListener('click', () => openModal(myIndex));
                 
-                masonryGrid.appendChild(item);
+                // Append round-robin to columns to preserve left-to-right chronological order
+                colEls[index % numCols].appendChild(item);
             });
         }
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(loadImages, 250);
+        });
 
         // Slideshow controls
         function openModal(index) {
